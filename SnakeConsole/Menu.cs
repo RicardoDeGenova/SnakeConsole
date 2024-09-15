@@ -6,11 +6,12 @@ class Menu
 {
     public enum Difficulty
     {
-        Easy = 100,
-        Medium = 50,
-        Hard = 15
+        Easy = 150,
+        Medium = 85,
+        Hard = 30,
+        Impossible = 10
     }
-
+    
     public static Difficulty ShowMenu()
     {
         Console.Clear();
@@ -29,7 +30,7 @@ class Menu
             }
             else if (input == ConsoleKey.D2 || input == ConsoleKey.NumPad2)
             {
-                Environment.Exit(0);  // Quit the game
+                Environment.Exit(0);
             }
             else
             {
@@ -45,6 +46,7 @@ class Menu
         Console.WriteLine("1. Easy");
         Console.WriteLine("2. Medium");
         Console.WriteLine("3. Hard");
+        Console.WriteLine("4. Impossible");
         Console.WriteLine("=============================");
         Console.Write("Please select a difficulty: ");
 
@@ -62,6 +64,9 @@ class Menu
                 case ConsoleKey.D3:
                 case ConsoleKey.NumPad3:
                     return Difficulty.Hard;
+                case ConsoleKey.D4:
+                case ConsoleKey.NumPad4:
+                    return Difficulty.Impossible;
                 default:
                     Console.WriteLine("Invalid option. Please select again.");
                     break;

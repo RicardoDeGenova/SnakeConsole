@@ -50,6 +50,9 @@ class Game
             if (Console.KeyAvailable)
             {
                 var key = Console.ReadKey(true).Key;
+
+                CheckIfGameWasPaused(key);
+
                 snake.ChangeDirection(key);
             }
 
@@ -60,6 +63,50 @@ class Game
         }
 
         GameOver();
+    }
+
+    private void WriteAt(int x, int y, string text)
+    {
+        Console.SetCursorPosition(x, y);
+        Console.Write(text);
+    }
+
+    private void CheckIfGameWasPaused(ConsoleKey key)
+    {
+        if (key != ConsoleKey.P) return;
+
+        using (new ConsoleColorScope(ConsoleColor.Yellow))
+        {
+            var left = screenWidth / 2 - 15;
+            var top = (screenHeight / 2) - 1;
+
+            WriteAt(left, top++, "======= SNAKE GAME PAUSED =======");
+            WriteAt(left, top++, "        1. Resume Game");
+            WriteAt(left, top++, "        2. Quit");
+            WriteAt(left, top++, $"  ==== CURRENT SCORE: {score: 0} ====  ");
+
+            Console.SetCursorPosition(0, screenHeight + 2);
+        }
+
+        while (true)
+        {
+            var input = Console.ReadKey(true).Key;
+            if (input == ConsoleKey.D1 || input == ConsoleKey.NumPad1)
+            {
+                Console.Clear();
+                DrawBorders();
+                UpdateScore();
+                return;
+            }
+            else if (input == ConsoleKey.D2 || input == ConsoleKey.NumPad2)
+            {
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.WriteLine("Invalid option. Please select again.");
+            }
+        }
     }
 
     private void SleepAfterMovement(SnakeDirection direction)
@@ -146,6 +193,7 @@ class Game
             Console.Write($"Game Over! Score: {score}");
         }
 
+        Console.SetCursorPosition(0, screenHeight + 2);
         Console.ReadKey();
     }
 }
