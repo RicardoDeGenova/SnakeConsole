@@ -2,7 +2,7 @@
 
 using System;
 
-class Menu
+public class Menu
 {
     public enum Difficulty
     {

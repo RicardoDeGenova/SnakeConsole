@@ -1,6 +1,4 @@
-﻿using System;
-
-public class ConsoleColorScope : IDisposable
+﻿public class ConsoleColorScope : IDisposable
 {
     private readonly ConsoleColor _originalColor;
 
