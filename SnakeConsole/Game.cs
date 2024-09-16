@@ -1,6 +1,8 @@
 ﻿using static SnakeConsole.Menu;
 using System.Drawing;
 using static SnakeConsole.Snake;
+using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace SnakeConsole;
 
@@ -14,12 +16,13 @@ public class Game
     private bool gameOver = false;
     private Random random = new Random();
     private int lastScore = -1;
-    private int speed = 100;
 
     public Game(Size size, Difficulty difficulty)
     {
         Console.Clear();
-        speed = (int)difficulty;
+        Console.OutputEncoding = Encoding.UTF8;
+        
+        Speed = (int)difficulty;
 
         screenWidth = size.Width;
         screenHeight = size.Height;
@@ -28,6 +31,22 @@ public class Game
         food.Generate(snake);
 
         DrawBorders();
+    }
+
+    private int speed;
+    private int Speed
+    {
+        get => speed;
+        set
+        {
+            if (value < 10)
+            {
+                speed = 10;
+                return;
+            }
+
+            speed = value;
+        }
     }
 
     public void Run()
@@ -98,11 +117,11 @@ public class Game
 
     private void SleepAfterMovement(SnakeDirection direction)
     {
-        Thread.Sleep(speed);
+        Thread.Sleep(Speed);
 
         if (direction == SnakeDirection.Down || direction == SnakeDirection.Up)
         {
-            Thread.Sleep(speed / 4);
+            Thread.Sleep(Speed / 4);
         }
     }
 
@@ -142,33 +161,23 @@ public class Game
         {
             UpdateScore();
             lastScore = score;
+
+            if (score % 2 == 0 && score != 0)
+                Speed--;
         }
     }
 
     private void DrawBorders()
     {
-        for (int i = 0; i <= screenWidth; i++)
-        {
-            Console.SetCursorPosition(i, 0);
-            Console.Write("#");
-            Console.SetCursorPosition(i, screenHeight);
-            Console.Write("#");
-        }
-
-        for (int i = 0; i <= screenHeight; i++)
-        {
-            Console.SetCursorPosition(0, i);
-            Console.Write("#");
-            Console.SetCursorPosition(screenWidth, i);
-            Console.Write("#");
-        }
+        var consoleRectangle = new ConsoleRectangle(screenWidth, screenHeight, new Point(0, 0), ConsoleColor.White);
+        consoleRectangle.Draw();
     }
 
     private void UpdateScore()
     {
         using var _ = new ConsoleColorScope(ConsoleColor.Yellow);
 
-        Console.SetCursorPosition(0, screenHeight + 1);
+        Console.SetCursorPosition(0, screenHeight + 2);
         Console.Write($"Score: {score}");
     }
 
@@ -180,7 +189,7 @@ public class Game
             Console.Write($"Game Over! Score: {score}");
         }
 
-        Console.SetCursorPosition(0, screenHeight + 2);
+        Console.SetCursorPosition(0, screenHeight + 3);
         Console.ReadKey();
     }
 }

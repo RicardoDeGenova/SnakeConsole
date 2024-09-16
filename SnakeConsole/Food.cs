@@ -26,6 +26,6 @@ public class Food
         using var _ = new ConsoleColorScope(ConsoleColor.Yellow);
 
         Console.SetCursorPosition(Position.X, Position.Y);
-        Console.Write("X");
+        Console.Write("♥");
     }
 }

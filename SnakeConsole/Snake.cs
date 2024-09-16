@@ -85,7 +85,7 @@ public class Snake
         for (int i = 1; i < body.Count; i++)
         {
             Console.SetCursorPosition(body[i].X, body[i].Y);
-            Console.Write("o");
+            Console.Write("⬤");
         }
     }
 }
